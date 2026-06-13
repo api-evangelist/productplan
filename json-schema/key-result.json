@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/productplan/main/json-schema/key-result.json",
+  "title": "KeyResult",
+  "description": "A key result (KR) belonging to an OKR objective in ProductPlan.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the key result"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the key result"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description"
+    },
+    "progress": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Progress percentage toward achieving this key result"
+    },
+    "objective_id": {
+      "type": "integer",
+      "description": "ID of the parent objective"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "title", "objective_id"]
+}

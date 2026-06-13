@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/productplan/main/json-schema/roadmap.json",
+  "title": "Roadmap",
+  "description": "A ProductPlan roadmap representing a product strategy view with lanes, milestones, and bars.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the roadmap"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the roadmap"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the roadmap"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the roadmap was created"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Timestamp when the roadmap was last updated"
+    }
+  },
+  "required": ["id", "name"]
+}

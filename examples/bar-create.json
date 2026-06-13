@@ -1,0 +1,14 @@
+{
+  "name": "Mobile Authentication Redesign",
+  "roadmap_id": 12345,
+  "description": "Redesign the mobile authentication flow to support biometric login and SSO.",
+  "starts_on": "2026-07-01",
+  "ends_on": "2026-09-30",
+  "strategic_value": "Reduces friction in mobile onboarding by 40% and improves security posture.",
+  "percent_done": 0,
+  "tags": ["mobile", "authentication", "security"],
+  "lane": "Platform",
+  "legend": "In Progress",
+  "is_container": false,
+  "parked": false
+}

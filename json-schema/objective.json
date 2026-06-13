@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/productplan/main/json-schema/objective.json",
+  "title": "Objective",
+  "description": "A strategic objective (OKR) in ProductPlan with associated key results.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the objective"
+    },
+    "title": {
+      "type": "string",
+      "description": "Title of the objective"
+    },
+    "description": {
+      "type": "string",
+      "description": "Detailed description of the objective"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "title"]
+}

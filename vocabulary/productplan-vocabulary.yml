@@ -1,0 +1,137 @@
+vocabulary:
+  provider: ProductPlan
+  description: Domain vocabulary for the ProductPlan road mapping and product management platform API.
+  url: https://docs.productplan.com/api/
+  terms:
+    - term: roadmap
+      definition: >
+        A visual plan that maps out a product's strategy over time. Roadmaps contain
+        lanes, milestones, and bars representing work items on a timeline.
+      type: resource
+      endpoint: /api/v2/roadmaps
+
+    - term: bar
+      definition: >
+        A unit of work placed on the roadmap timeline. Also called a "feature" or
+        "item", a bar has start/end dates, percent completion, tags, custom fields,
+        and can be organized into lanes and legends. Bars can be nested using container bars.
+      type: resource
+      endpoint: /api/v2/bars
+
+    - term: lane
+      definition: >
+        A horizontal swim lane within a roadmap used to organize bars by team,
+        product area, or any other grouping. Each roadmap can have multiple lanes.
+      type: resource
+      endpoint: /api/v2/roadmaps/{roadmap_id}/lanes
+
+    - term: milestone
+      definition: >
+        A specific date marker on a roadmap used to indicate important deadlines,
+        releases, or events. Milestones are attached to a specific roadmap.
+      type: resource
+      endpoint: /api/v2/roadmaps/{roadmap_id}/milestones
+
+    - term: connection
+      definition: >
+        A dependency link between two bars on a roadmap indicating that one bar
+        depends on or relates to another.
+      type: resource
+      endpoint: /api/v2/bars/{bar_id}/connections
+
+    - term: container_bar
+      definition: >
+        A special bar type (is_container: true) that acts as a parent grouping
+        for child bars. Enables hierarchical organization of roadmap items.
+      type: concept
+
+    - term: parked
+      definition: >
+        Status indicating a bar that exists in the roadmap but is not yet placed
+        on the timeline. Parked bars are in a holding area until scheduled.
+      type: concept
+
+    - term: legend
+      definition: >
+        A color-coded category label applied to bars for visual grouping and
+        status indication on the roadmap (e.g., "In Progress", "Planned", "Complete").
+      type: concept
+
+    - term: objective
+      definition: >
+        A high-level strategic goal in the OKR (Objectives and Key Results) framework.
+        Objectives describe what the team wants to achieve and contain one or more key results.
+      type: resource
+      endpoint: /api/v2/strategy/objectives
+
+    - term: key_result
+      definition: >
+        A measurable outcome that indicates progress toward an objective in OKR.
+        Key results have a progress value (0-100) that tracks achievement.
+      type: resource
+      endpoint: /api/v2/strategy/objectives/{objective_id}/key-results
+
+    - term: idea
+      definition: >
+        A product idea or feature request captured in the ProductPlan Discovery module.
+        Ideas can be tagged, linked to customers, and promoted to roadmap bars.
+      type: resource
+      endpoint: /api/v2/discovery/ideas
+
+    - term: opportunity
+      definition: >
+        A market or product opportunity identified in the Discovery module.
+        Opportunities can be linked to ideas and objectives to build a coherent strategy.
+      type: resource
+      endpoint: /api/v2/discovery/opportunities
+
+    - term: idea_form
+      definition: >
+        A configurable form used to collect ideas from stakeholders or customers.
+        Idea forms define the fields and questions presented to submitters.
+      type: resource
+      endpoint: /api/v2/discovery/idea-forms
+
+    - term: launch
+      definition: >
+        A product launch plan in ProductPlan containing checklist sections and tasks
+        to coordinate the activities required to ship a product or feature.
+      type: resource
+      endpoint: /api/v2/launches
+
+    - term: checklist_section
+      definition: >
+        A named group of tasks within a launch plan. Sections organize launch
+        activities by team, phase, or category.
+      type: resource
+      endpoint: /api/v2/launches/{launch_id}/checklist-sections
+
+    - term: percent_done
+      definition: >
+        An integer (0-100) representing the completion percentage of a bar or
+        task. Surfaced on roadmaps to communicate progress to stakeholders.
+      type: field
+
+    - term: personal_access_token
+      definition: >
+        A 64-character hash token generated in ProductPlan Settings > Integrations
+        used as Bearer token authentication for all API requests.
+      type: authentication
+
+    - term: bearer_token
+      definition: >
+        The authentication mechanism for the ProductPlan API. Passed as an HTTP
+        Authorization header in the format: Authorization: Bearer <64-char-token>
+      type: authentication
+
+    - term: custom_text_field
+      definition: >
+        A user-defined text attribute on a bar allowing teams to capture additional
+        metadata beyond the standard fields.
+      type: field
+
+    - term: custom_dropdown_field
+      definition: >
+        A user-defined dropdown attribute on a bar allowing teams to capture
+        categorical metadata with predefined options.
+      type: field

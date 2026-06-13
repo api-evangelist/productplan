@@ -1,0 +1,126 @@
+{
+  "@context": {
+    "@version": 1.1,
+    "schema": "https://schema.org/",
+    "pp": "https://www.productplan.com/vocab/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+
+    "Roadmap": "pp:Roadmap",
+    "Bar": "pp:Bar",
+    "Lane": "pp:Lane",
+    "Milestone": "pp:Milestone",
+    "Objective": "pp:Objective",
+    "KeyResult": "pp:KeyResult",
+    "Idea": "pp:Idea",
+    "Opportunity": "pp:Opportunity",
+    "IdeaForm": "pp:IdeaForm",
+    "Launch": "pp:Launch",
+    "ChecklistSection": "pp:ChecklistSection",
+    "Task": "schema:Action",
+    "Connection": "pp:Connection",
+    "Link": "schema:URL",
+    "User": "schema:Person",
+    "Team": "schema:Organization",
+
+    "id": "@id",
+    "type": "@type",
+
+    "name": "schema:name",
+    "title": "schema:name",
+    "description": "schema:description",
+    "email": "schema:email",
+    "url": "schema:url",
+
+    "created_at": {
+      "@id": "schema:dateCreated",
+      "@type": "xsd:dateTime"
+    },
+    "updated_at": {
+      "@id": "schema:dateModified",
+      "@type": "xsd:dateTime"
+    },
+    "starts_on": {
+      "@id": "schema:startDate",
+      "@type": "xsd:date"
+    },
+    "ends_on": {
+      "@id": "schema:endDate",
+      "@type": "xsd:date"
+    },
+    "launch_date": {
+      "@id": "schema:startDate",
+      "@type": "xsd:date"
+    },
+    "date": {
+      "@id": "schema:date",
+      "@type": "xsd:date"
+    },
+    "due_date": {
+      "@id": "schema:scheduledTime",
+      "@type": "xsd:date"
+    },
+
+    "percent_done": "pp:percentDone",
+    "progress": "pp:progress",
+    "strategic_value": "pp:strategicValue",
+    "notes": "schema:comment",
+    "tags": "schema:keywords",
+    "lane": "pp:lane",
+    "legend": "pp:legend",
+    "is_container": "pp:isContainer",
+    "parked": "pp:parked",
+    "completed": "schema:actionStatus",
+    "role": "schema:roleName",
+    "position": "schema:position",
+
+    "roadmap_id": {
+      "@id": "pp:roadmapId",
+      "@type": "xsd:integer"
+    },
+    "container_bar_id": {
+      "@id": "pp:containerBarId",
+      "@type": "xsd:integer"
+    },
+    "objective_id": {
+      "@id": "pp:objectiveId",
+      "@type": "xsd:integer"
+    },
+    "launch_id": {
+      "@id": "pp:launchId",
+      "@type": "xsd:integer"
+    },
+    "checklist_section_id": {
+      "@id": "pp:checklistSectionId",
+      "@type": "xsd:integer"
+    },
+    "source_bar_id": {
+      "@id": "pp:sourceBarId",
+      "@type": "xsd:integer"
+    },
+    "target_bar_id": {
+      "@id": "pp:targetBarId",
+      "@type": "xsd:integer"
+    },
+    "assignee_id": {
+      "@id": "schema:agent",
+      "@type": "xsd:integer"
+    },
+    "user_id": {
+      "@id": "schema:author",
+      "@type": "xsd:integer"
+    },
+
+    "custom_text_fields": "pp:customTextFields",
+    "custom_dropdown_fields": "pp:customDropdownFields",
+    "body": "schema:text",
+
+    "data": "pp:data",
+    "meta": "pp:meta",
+    "current_page": "pp:currentPage",
+    "page_size": "pp:pageSize",
+    "total_count": "pp:totalCount",
+    "total_pages": "pp:totalPages",
+    "status": "schema:status",
+    "version": "schema:version"
+  }
+}

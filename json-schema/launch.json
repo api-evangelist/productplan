@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/productplan/main/json-schema/launch.json",
+  "title": "Launch",
+  "description": "A product launch plan in ProductPlan with checklist sections and tasks.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the launch"
+    },
+    "name": {
+      "type": "string",
+      "description": "Name of the launch"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of the launch"
+    },
+    "launch_date": {
+      "type": "string",
+      "format": "date",
+      "description": "Planned launch date (YYYY-MM-DD)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "name"]
+}

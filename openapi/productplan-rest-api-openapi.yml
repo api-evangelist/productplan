@@ -1,0 +1,2479 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST API
+  description: >
+    The ProductPlan REST API (v2) provides programmatic access to roadmaps,
+    strategy (objectives and key results), discovery (ideas and opportunities),
+    launch management, users, teams, and account status. It enables
+    synchronization with internal systems and third-party tools such as Jira,
+    GitHub, Slack, and Trello.
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+  - url: https://app.productplan.com/api/v2
+    description: ProductPlan production API
+security:
+  - bearerAuth: []
+tags:
+  - name: Roadmaps
+    description: Manage roadmaps, lanes, milestones, bars, and comments
+  - name: Bars
+    description: Manage bars (features/items) within roadmaps
+  - name: Strategy
+    description: Manage OKR objectives and key results
+  - name: Discovery
+    description: Manage ideas, opportunities, customers, and idea forms
+  - name: Launches
+    description: Manage launches, checklist sections, and tasks
+  - name: Users
+    description: List account users
+  - name: Teams
+    description: List teams
+  - name: Status
+    description: Application status
+paths:
+  /roadmaps:
+    get:
+      operationId: listRoadmaps
+      summary: List roadmaps
+      description: Returns a paginated list of roadmaps for the authenticated account.
+      tags:
+        - Roadmaps
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: A paginated list of roadmaps
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoadmapList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+  /roadmaps/{id}:
+    get:
+      operationId: getRoadmap
+      summary: Retrieve a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single roadmap
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RoadmapResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /roadmaps/{roadmap_id}/lanes:
+    get:
+      operationId: listRoadmapLanes
+      summary: List lanes for a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of lanes
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaneList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    post:
+      operationId: createRoadmapLane
+      summary: Create a lane in a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaneCreate'
+      responses:
+        '201':
+          description: Lane created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaneResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /roadmaps/{roadmap_id}/lanes/{id}:
+    patch:
+      operationId: updateRoadmapLane
+      summary: Update a lane
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaneUpdate'
+      responses:
+        '200':
+          description: Lane updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaneResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteRoadmapLane
+      summary: Delete a lane
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Lane deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /roadmaps/{roadmap_id}/milestones:
+    get:
+      operationId: listRoadmapMilestones
+      summary: List milestones for a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of milestones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilestoneList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createRoadmapMilestone
+      summary: Create a milestone
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilestoneCreate'
+      responses:
+        '201':
+          description: Milestone created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilestoneResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /roadmaps/{roadmap_id}/milestones/{id}:
+    patch:
+      operationId: updateRoadmapMilestone
+      summary: Update a milestone
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MilestoneUpdate'
+      responses:
+        '200':
+          description: Milestone updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MilestoneResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteRoadmapMilestone
+      summary: Delete a milestone
+      tags:
+        - Roadmaps
+      parameters:
+        - name: roadmap_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Milestone deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /roadmaps/{id}/bars:
+    get:
+      operationId: listRoadmapBars
+      summary: List bars for a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of bars
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BarList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /roadmaps/{id}/comments:
+    get:
+      operationId: listRoadmapComments
+      summary: List comments on a roadmap
+      tags:
+        - Roadmaps
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bars:
+    post:
+      operationId: createBar
+      summary: Create a bar
+      description: >
+        Creates a new bar (feature/item) within a specified roadmap. Bars
+        represent work items on a roadmap timeline.
+      tags:
+        - Bars
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BarCreate'
+      responses:
+        '201':
+          description: Bar created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BarResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /bars/{id}:
+    get:
+      operationId: getBar
+      summary: Retrieve a bar
+      tags:
+        - Bars
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single bar
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BarResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateBar
+      summary: Update a bar
+      tags:
+        - Bars
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BarUpdate'
+      responses:
+        '200':
+          description: Bar updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BarResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteBar
+      summary: Delete a bar
+      tags:
+        - Bars
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Bar deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bars/{id}/child-bars:
+    get:
+      operationId: listChildBars
+      summary: List child bars
+      tags:
+        - Bars
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of child bars
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BarList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bars/{id}/comments:
+    get:
+      operationId: listBarComments
+      summary: List comments on a bar
+      tags:
+        - Bars
+      parameters:
+        - $ref: '#/components/parameters/id'
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of comments
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CommentList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bars/{bar_id}/connections:
+    get:
+      operationId: listBarConnections
+      summary: List connections for a bar
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of connections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createBarConnection
+      summary: Create a connection for a bar
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConnectionCreate'
+      responses:
+        '201':
+          description: Connection created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConnectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /bars/{bar_id}/connections/{id}:
+    delete:
+      operationId: deleteBarConnection
+      summary: Delete a connection
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Connection deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /bars/{bar_id}/links:
+    get:
+      operationId: listBarLinks
+      summary: List links for a bar
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of links
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createBarLink
+      summary: Create a link for a bar
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LinkCreate'
+      responses:
+        '201':
+          description: Link created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LinkResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /bars/{bar_id}/links/{id}:
+    delete:
+      operationId: deleteBarLink
+      summary: Delete a link
+      tags:
+        - Bars
+      parameters:
+        - name: bar_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Link deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /strategy/objectives:
+    get:
+      operationId: listObjectives
+      summary: List objectives
+      tags:
+        - Strategy
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of objectives
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createObjective
+      summary: Create an objective
+      tags:
+        - Strategy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectiveCreate'
+      responses:
+        '201':
+          description: Objective created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /strategy/objectives/{id}:
+    get:
+      operationId: getObjective
+      summary: Retrieve an objective
+      tags:
+        - Strategy
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single objective
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateObjective
+      summary: Update an objective
+      tags:
+        - Strategy
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectiveUpdate'
+      responses:
+        '200':
+          description: Objective updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteObjective
+      summary: Delete an objective
+      tags:
+        - Strategy
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Objective deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /strategy/objectives/{objective_id}/key-results:
+    get:
+      operationId: listKeyResults
+      summary: List key results for an objective
+      tags:
+        - Strategy
+      parameters:
+        - name: objective_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of key results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createKeyResult
+      summary: Create a key result
+      tags:
+        - Strategy
+      parameters:
+        - name: objective_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyResultCreate'
+      responses:
+        '201':
+          description: Key result created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /strategy/objectives/{objective_id}/key-results/{id}:
+    get:
+      operationId: getKeyResult
+      summary: Retrieve a key result
+      tags:
+        - Strategy
+      parameters:
+        - name: objective_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single key result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateKeyResult
+      summary: Update a key result
+      tags:
+        - Strategy
+      parameters:
+        - name: objective_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyResultUpdate'
+      responses:
+        '200':
+          description: Key result updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteKeyResult
+      summary: Delete a key result
+      tags:
+        - Strategy
+      parameters:
+        - name: objective_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Key result deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /discovery/ideas:
+    get:
+      operationId: listIdeas
+      summary: List ideas
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createIdea
+      summary: Create an idea
+      tags:
+        - Discovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdeaCreate'
+      responses:
+        '201':
+          description: Idea created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/ideas/{id}:
+    get:
+      operationId: getIdea
+      summary: Retrieve an idea
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single idea
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateIdea
+      summary: Update an idea
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdeaUpdate'
+      responses:
+        '200':
+          description: Idea updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/ideas/customers:
+    get:
+      operationId: listIdeaCustomers
+      summary: List idea customers
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of customers associated with ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/ideas/tags:
+    get:
+      operationId: listIdeaTags
+      summary: List idea tags
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of tags used on ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/opportunities:
+    get:
+      operationId: listOpportunities
+      summary: List opportunities
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of opportunities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOpportunity
+      summary: Create an opportunity
+      tags:
+        - Discovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpportunityCreate'
+      responses:
+        '201':
+          description: Opportunity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/opportunities/{id}:
+    get:
+      operationId: getOpportunity
+      summary: Retrieve an opportunity
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single opportunity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateOpportunity
+      summary: Update an opportunity
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpportunityUpdate'
+      responses:
+        '200':
+          description: Opportunity updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/idea-forms:
+    get:
+      operationId: listIdeaForms
+      summary: List idea forms
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of idea forms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaFormList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/idea-forms/{id}:
+    get:
+      operationId: getIdeaForm
+      summary: Retrieve an idea form
+      tags:
+        - Discovery
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single idea form
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaFormResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /launches:
+    get:
+      operationId: listLaunches
+      summary: List launches
+      tags:
+        - Launches
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+        - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of launches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLaunch
+      summary: Create a launch
+      tags:
+        - Launches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchCreate'
+      responses:
+        '201':
+          description: Launch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{id}:
+    get:
+      operationId: getLaunch
+      summary: Retrieve a launch
+      tags:
+        - Launches
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single launch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLaunch
+      summary: Update a launch
+      tags:
+        - Launches
+      parameters:
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchUpdate'
+      responses:
+        '200':
+          description: Launch updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteLaunch
+      summary: Delete a launch
+      tags:
+        - Launches
+      parameters:
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Launch deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /launches/{launch_id}/checklist-sections:
+    get:
+      operationId: listChecklistSections
+      summary: List checklist sections for a launch
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of checklist sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createChecklistSection
+      summary: Create a checklist section
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistSectionCreate'
+      responses:
+        '201':
+          description: Section created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{launch_id}/checklist-sections/{id}:
+    get:
+      operationId: getChecklistSection
+      summary: Retrieve a checklist section
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single checklist section
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateChecklistSection
+      summary: Update a checklist section
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistSectionUpdate'
+      responses:
+        '200':
+          description: Section updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteChecklistSection
+      summary: Delete a checklist section
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Section deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /launches/{launch_id}/tasks:
+    get:
+      operationId: listLaunchTasks
+      summary: List tasks for a launch
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createLaunchTask
+      summary: Create a task for a launch
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{launch_id}/tasks/{id}:
+    get:
+      operationId: getLaunchTask
+      summary: Retrieve a launch task
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLaunchTask
+      summary: Update a launch task
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteLaunchTask
+      summary: Delete a launch task
+      tags:
+        - Launches
+      parameters:
+        - name: launch_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Task deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /users:
+    get:
+      operationId: listUsers
+      summary: List all account users
+      tags:
+        - Users
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /teams:
+    get:
+      operationId: listTeams
+      summary: List all teams
+      tags:
+        - Teams
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of teams
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /status:
+    get:
+      operationId: getStatus
+      summary: Check application status
+      tags:
+        - Status
+      security: []
+      responses:
+        '200':
+          description: Application status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: >
+        Personal Access Token (64-character hash). Generate in ProductPlan under
+        Settings > Integrations. Include as: Authorization: Bearer <token>
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: >
+        Filtering and sorting object. Supports attributes such as id, name,
+        description, position, created_at, updated_at depending on resource.
+      style: deepObject
+      explode: true
+  responses:
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    CustomTextField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    CustomDropdownField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Roadmap:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    RoadmapResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Roadmap'
+    RoadmapList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Roadmap'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Lane:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+        roadmap_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    LaneCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+    LaneUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+    LaneResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Lane'
+    LaneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lane'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Milestone:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+        roadmap_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    MilestoneCreate:
+      type: object
+      required:
+        - name
+        - date
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+    MilestoneUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+          format: date
+    MilestoneResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Milestone'
+    MilestoneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Milestone'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Bar:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type: string
+          format: date
+        strategic_value:
+          type: string
+        notes:
+          type: string
+        percent_done:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tags:
+          type: array
+          items:
+            type: string
+        lane:
+          type: string
+        legend:
+          type: string
+        is_container:
+          type: boolean
+        parked:
+          type: boolean
+        roadmap_id:
+          type: integer
+        container_bar_id:
+          type: integer
+          nullable: true
+        custom_text_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomTextField'
+        custom_dropdown_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDropdownField'
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    BarCreate:
+      type: object
+      required:
+        - name
+        - roadmap_id
+      properties:
+        name:
+          type: string
+          description: Title of the bar
+        roadmap_id:
+          type: integer
+          description: ID of the roadmap
+        description:
+          type: string
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type: string
+          format: date
+        strategic_value:
+          type: string
+        notes:
+          type: string
+        percent_done:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tags:
+          type: array
+          items:
+            type: string
+        lane:
+          type: string
+        legend:
+          type: string
+        custom_text_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomTextField'
+        custom_dropdown_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDropdownField'
+        is_container:
+          type: boolean
+          default: false
+        parked:
+          type: boolean
+          default: true
+        container_bar_id:
+          type: integer
+    BarUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type: string
+          format: date
+        strategic_value:
+          type: string
+        notes:
+          type: string
+        percent_done:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tags:
+          type: array
+          items:
+            type: string
+        lane:
+          type: string
+        legend:
+          type: string
+        custom_text_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomTextField'
+        custom_dropdown_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDropdownField'
+        parked:
+          type: boolean
+        container_bar_id:
+          type: integer
+    BarResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Bar'
+    BarList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bar'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        body:
+          type: string
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CommentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Connection:
+      type: object
+      properties:
+        id:
+          type: integer
+        source_bar_id:
+          type: integer
+        target_bar_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    ConnectionCreate:
+      type: object
+      required:
+        - target_bar_id
+      properties:
+        target_bar_id:
+          type: integer
+    ConnectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Connection'
+    ConnectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Link:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+          format: uri
+        title:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    LinkCreate:
+      type: object
+      required:
+        - url
+      properties:
+        url:
+          type: string
+          format: uri
+        title:
+          type: string
+    LinkResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Link'
+    LinkList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Objective:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ObjectiveCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    ObjectiveUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    ObjectiveResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Objective'
+    ObjectiveList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Objective'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    KeyResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+        objective_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    KeyResultCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+    KeyResultUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+    KeyResultResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/KeyResult'
+    KeyResultList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyResult'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Idea:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    IdeaCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    IdeaUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    IdeaResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Idea'
+    IdeaList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Idea'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    CustomerList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    TagList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    OpportunityCreate:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    OpportunityUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    OpportunityResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Opportunity'
+    OpportunityList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opportunity'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaForm:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    IdeaFormResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IdeaForm'
+    IdeaFormList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeaForm'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Launch:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    LaunchCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+    LaunchUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+    LaunchResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Launch'
+    LaunchList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launch'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ChecklistSection:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        position:
+          type: integer
+        launch_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ChecklistSectionCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        position:
+          type: integer
+    ChecklistSectionUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        position:
+          type: integer
+    ChecklistSectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChecklistSection'
+    ChecklistSectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistSection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+          nullable: true
+        launch_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TaskCreate:
+      type: object
+      required:
+        - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+          default: false
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+    TaskUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+    TaskResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Task'
+    TaskList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    UserList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/User'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TeamList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string

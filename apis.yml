@@ -32,6 +32,8 @@ apis:
         url: https://docs.productplan.com/api/
       - type: OpenAPI
         url: https://productplan.readme.io/reference/overview
+      - type: OpenAPI
+        url: openapi/productplan-rest-api-openapi.yml
 common:
   - type: Website
     url: https://www.productplan.com

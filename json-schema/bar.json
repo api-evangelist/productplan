@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/productplan/main/json-schema/bar.json",
+  "title": "Bar",
+  "description": "A bar (feature/item) on a ProductPlan roadmap representing a unit of work on the timeline.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "Unique identifier for the bar"
+    },
+    "name": {
+      "type": "string",
+      "description": "Title of the bar"
+    },
+    "description": {
+      "type": "string",
+      "description": "Explanation of what the bar represents"
+    },
+    "starts_on": {
+      "type": "string",
+      "format": "date",
+      "description": "Date work begins (YYYY-MM-DD)"
+    },
+    "ends_on": {
+      "type": "string",
+      "format": "date",
+      "description": "Date work completes (YYYY-MM-DD)"
+    },
+    "strategic_value": {
+      "type": "string",
+      "description": "Rationale for the strategic importance of this bar"
+    },
+    "notes": {
+      "type": "string",
+      "description": "Additional free-text notes"
+    },
+    "percent_done": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Progress percentage (0-100)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Keywords associated with this bar"
+    },
+    "lane": {
+      "type": "string",
+      "description": "Name of the lane this bar belongs to"
+    },
+    "legend": {
+      "type": "string",
+      "description": "Legend category assigned to this bar"
+    },
+    "is_container": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this bar is a container for child bars"
+    },
+    "parked": {
+      "type": "boolean",
+      "description": "Whether this bar is parked (not placed on timeline)"
+    },
+    "roadmap_id": {
+      "type": "integer",
+      "description": "ID of the parent roadmap"
+    },
+    "container_bar_id": {
+      "type": ["integer", "null"],
+      "description": "ID of the parent container bar, if any"
+    },
+    "custom_text_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["name"]
+      },
+      "description": "Custom text field values"
+    },
+    "custom_dropdown_fields": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": { "type": "string" },
+          "value": { "type": "string" }
+        },
+        "required": ["name"]
+      },
+      "description": "Custom dropdown field values"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": ["id", "name", "roadmap_id"]
+}
