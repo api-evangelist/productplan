@@ -1,0 +1,20 @@
+name: ProductPlan Rate Limits
+description: Rate limiting information for the ProductPlan REST API v2. ProductPlan does not publicly document specific numeric rate limits in their API reference. Limits are enforced server-side; consumers should implement standard back-off and retry strategies. Contact ProductPlan support for enterprise-level rate limit details.
+specificationVersion: '0.1'
+url: https://docs.productplan.com/api/
+rateLimits:
+  - name: API v2 Default Limit
+    description: ProductPlan enforces rate limits on their REST API v2 but does not publish specific request-per-minute or request-per-hour thresholds in public documentation. Standard API best practices apply.
+    scope: account
+    headers:
+      - name: Retry-After
+        description: Returned when a rate limit is hit; indicates how many seconds to wait before retrying.
+    httpStatusCodes:
+      - code: 429
+        description: Too Many Requests — the client has exceeded the allowed request rate. Implement exponential back-off and retry after the Retry-After interval.
+    guidance:
+      - Implement exponential back-off for 429 responses.
+      - Cache frequently read resources (roadmaps, bars, OKRs) locally to reduce API calls.
+      - Use webhooks for change notifications rather than polling the REST API.
+      - Batch write operations where possible.
+    notes: Specific numeric thresholds (requests per minute/hour) are not published. Contact ProductPlan support or consult your subscription agreement for enterprise rate limit details.

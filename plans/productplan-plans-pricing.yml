@@ -1,0 +1,37 @@
+name: ProductPlan Plans and Pricing
+description: Pricing plans for ProductPlan's product intelligence and road mapping platform. ProductPlan uses a seat-based model where editors/builders pay per seat and viewers are free. The platform is sold as a unified product intelligence suite; pricing is available upon request through their sales team.
+specificationVersion: '0.1'
+url: https://www.productplan.com/pricing/
+plans:
+  - name: Product Intelligence Platform
+    description: The unified ProductPlan plan covering road mapping, strategy (OKRs), discovery (ideas and opportunities), launch management, and product intelligence features. Unlimited roadmaps and unlimited viewers are included. Paid seats apply to users who actively build, edit, or manage roadmaps.
+    url: https://www.productplan.com/pricing/
+    pricing:
+      model: per-seat
+      billingCycle: annual
+      currency: USD
+      amount: contact-sales
+      notes: ProductPlan moved to a sales-led pricing model in mid-2024. Historical public tiers were Basic (~$39/editor/month) and Professional (~$69/editor/month) billed annually. Enterprise pricing remains custom. Current pricing requires contacting sales.
+    features:
+      - Unlimited roadmaps
+      - Unlimited viewers (free)
+      - Customizable roadmap views
+      - Portfolio views
+      - Prioritization boards
+      - OKR integration and tracking
+      - Risk and dependency tracking
+      - Launch management and task checklists
+      - Idea capture and management
+      - Research surveys and video call feedback
+      - Opportunity validation
+      - AI-suggested initiatives
+      - Jira, GitHub, Slack, Trello, Azure DevOps integrations
+      - REST API v2 access
+      - Webhooks
+      - Single sign-on (SSO)
+      - Advanced admin management
+      - White-glove onboarding
+      - Customer success and live support
+    apiAccess:
+      included: true
+      notes: REST API v2 is available as part of the subscription. API tokens are generated via ProductPlan Settings → API.

@@ -1,0 +1,49 @@
+name: ProductPlan FinOps
+description: FinOps Framework 1.0 FOCUS-aligned cost management guidance for ProductPlan subscriptions. Covers cost allocation, optimization, and forecasting for teams consuming ProductPlan's road mapping and product intelligence platform.
+specificationVersion: '1.0'
+url: https://www.productplan.com/pricing/
+focus:
+  provider: ProductPlan
+  service: Product Intelligence Platform
+  pricingModel: per-seat-annual
+  currency: USD
+costAllocation:
+  dimensions:
+    - name: Editor Seats
+      description: The primary cost driver. Only users who actively build, edit, or manage roadmaps consume paid seats. Viewers are free and unlimited.
+      unit: seat/year
+    - name: Team or Department
+      description: Allocate costs by tagging seats to product teams, business units, or cost centers for internal chargeback.
+    - name: Product Line
+      description: Map roadmap workspaces or portfolios to product lines for granular cost tracking.
+optimization:
+  recommendations:
+    - name: Audit Editor Seats Regularly
+      description: Conduct quarterly audits to identify inactive editor seats. Downgrade inactive users to viewer roles to avoid paying for unused capacity.
+    - name: Maximize Viewer Usage
+      description: Viewers are free and unlimited. Prefer viewer roles for stakeholders who only consume roadmap data.
+    - name: Annual vs. Monthly Billing
+      description: ProductPlan bills annually only as of 2024. Confirm seat counts before renewal to avoid over-provisioning for the next annual term.
+    - name: Consolidate Workspaces
+      description: Merge overlapping roadmap workspaces to reduce duplicate editor seats across teams working on related products.
+    - name: Leverage API and Webhooks
+      description: Use the REST API and webhooks to automate data synchronization with Jira, GitHub, and Azure DevOps instead of purchasing additional integration tooling.
+forecasting:
+  notes: Costs are predictable on an annual seat basis. Forecast by tracking headcount growth in product teams quarter-over-quarter. New editor seats added mid-cycle may be prorated per your subscription agreement.
+  inputs:
+    - Current editor seat count
+    - Projected team growth rate
+    - Renewal date
+    - Custom negotiated rate (enterprise)
+tagging:
+  recommended:
+    - team
+    - department
+    - cost-center
+    - product-line
+    - environment
+waste:
+  signals:
+    - Editor seats with zero logins in the past 90 days
+    - Duplicate roadmaps covering the same product area
+    - Unused integrations consuming API quota
