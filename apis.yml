@@ -35,6 +35,14 @@ apis:
       - type: OpenAPI
         url: openapi/productplan-rest-api-openapi.yml
 common:
+  - type: TrustCenter
+    url: security/productplan-trust-center.yml
+  - type: VulnerabilityDisclosure
+    url: security/productplan-vulnerability-disclosure.yml
+  - type: DomainSecurity
+    url: security/productplan-domain-security.yml
+  - type: Authentication
+    url: authentication/productplan-authentication.yml
   - type: Website
     url: https://www.productplan.com
   - type: Documentation
