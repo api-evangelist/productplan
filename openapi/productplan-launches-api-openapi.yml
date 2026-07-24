@@ -1,0 +1,635 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST Bars Launches API
+  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
+
+    '
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+- url: https://app.productplan.com/api/v2
+  description: ProductPlan production API
+security:
+- bearerAuth: []
+tags:
+- name: Launches
+  description: Manage launches, checklist sections, and tasks
+paths:
+  /launches:
+    get:
+      operationId: listLaunches
+      summary: List launches
+      tags:
+      - Launches
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of launches
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createLaunch
+      summary: Create a launch
+      tags:
+      - Launches
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchCreate'
+      responses:
+        '201':
+          description: Launch created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{id}:
+    get:
+      operationId: getLaunch
+      summary: Retrieve a launch
+      tags:
+      - Launches
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single launch
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLaunch
+      summary: Update a launch
+      tags:
+      - Launches
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LaunchUpdate'
+      responses:
+        '200':
+          description: Launch updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LaunchResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteLaunch
+      summary: Delete a launch
+      tags:
+      - Launches
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Launch deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /launches/{launch_id}/checklist-sections:
+    get:
+      operationId: listChecklistSections
+      summary: List checklist sections for a launch
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of checklist sections
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createChecklistSection
+      summary: Create a checklist section
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistSectionCreate'
+      responses:
+        '201':
+          description: Section created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{launch_id}/checklist-sections/{id}:
+    get:
+      operationId: getChecklistSection
+      summary: Retrieve a checklist section
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single checklist section
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateChecklistSection
+      summary: Update a checklist section
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChecklistSectionUpdate'
+      responses:
+        '200':
+          description: Section updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ChecklistSectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteChecklistSection
+      summary: Delete a checklist section
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Section deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /launches/{launch_id}/tasks:
+    get:
+      operationId: listLaunchTasks
+      summary: List tasks for a launch
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of tasks
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createLaunchTask
+      summary: Create a task for a launch
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskCreate'
+      responses:
+        '201':
+          description: Task created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /launches/{launch_id}/tasks/{id}:
+    get:
+      operationId: getLaunchTask
+      summary: Retrieve a launch task
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateLaunchTask
+      summary: Update a launch task
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TaskUpdate'
+      responses:
+        '200':
+          description: Task updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteLaunchTask
+      summary: Delete a launch task
+      tags:
+      - Launches
+      parameters:
+      - name: launch_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Task deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    LaunchList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launch'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Task:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+          nullable: true
+        launch_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    ChecklistSection:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        position:
+          type: integer
+        launch_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TaskCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+          default: false
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    TaskList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    TaskResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Task'
+    LaunchCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+    LaunchResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Launch'
+    ChecklistSectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChecklistSection'
+    Launch:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    TaskUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+    ChecklistSectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/ChecklistSection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ChecklistSectionUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        position:
+          type: integer
+    ChecklistSectionCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        position:
+          type: integer
+    LaunchUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        launch_date:
+          type: string
+          format: date
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Personal Access Token (64-character hash). Generate in ProductPlan under Settings > Integrations. Include as: Authorization: Bearer <token>
+
+        '

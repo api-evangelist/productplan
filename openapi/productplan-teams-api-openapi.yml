@@ -1,0 +1,114 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST Bars Teams API
+  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
+
+    '
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+- url: https://app.productplan.com/api/v2
+  description: ProductPlan production API
+security:
+- bearerAuth: []
+tags:
+- name: Teams
+  description: List teams
+paths:
+  /teams:
+    get:
+      operationId: listTeams
+      summary: List all teams
+      tags:
+      - Teams
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of teams
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeamList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+  schemas:
+    Team:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    TeamList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+  responses:
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Personal Access Token (64-character hash). Generate in ProductPlan under Settings > Integrations. Include as: Authorization: Bearer <token>
+
+        '

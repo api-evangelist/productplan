@@ -1,0 +1,434 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST Bars Strategy API
+  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
+
+    '
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+- url: https://app.productplan.com/api/v2
+  description: ProductPlan production API
+security:
+- bearerAuth: []
+tags:
+- name: Strategy
+  description: Manage OKR objectives and key results
+paths:
+  /strategy/objectives:
+    get:
+      operationId: listObjectives
+      summary: List objectives
+      tags:
+      - Strategy
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of objectives
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createObjective
+      summary: Create an objective
+      tags:
+      - Strategy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectiveCreate'
+      responses:
+        '201':
+          description: Objective created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /strategy/objectives/{id}:
+    get:
+      operationId: getObjective
+      summary: Retrieve an objective
+      tags:
+      - Strategy
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single objective
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateObjective
+      summary: Update an objective
+      tags:
+      - Strategy
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ObjectiveUpdate'
+      responses:
+        '200':
+          description: Objective updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ObjectiveResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteObjective
+      summary: Delete an objective
+      tags:
+      - Strategy
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Objective deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /strategy/objectives/{objective_id}/key-results:
+    get:
+      operationId: listKeyResults
+      summary: List key results for an objective
+      tags:
+      - Strategy
+      parameters:
+      - name: objective_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of key results
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    post:
+      operationId: createKeyResult
+      summary: Create a key result
+      tags:
+      - Strategy
+      parameters:
+      - name: objective_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyResultCreate'
+      responses:
+        '201':
+          description: Key result created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /strategy/objectives/{objective_id}/key-results/{id}:
+    get:
+      operationId: getKeyResult
+      summary: Retrieve a key result
+      tags:
+      - Strategy
+      parameters:
+      - name: objective_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single key result
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateKeyResult
+      summary: Update a key result
+      tags:
+      - Strategy
+      parameters:
+      - name: objective_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/KeyResultUpdate'
+      responses:
+        '200':
+          description: Key result updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/KeyResultResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+    delete:
+      operationId: deleteKeyResult
+      summary: Delete a key result
+      tags:
+      - Strategy
+      parameters:
+      - name: objective_id
+        in: path
+        required: true
+        schema:
+          type: integer
+      - $ref: '#/components/parameters/id'
+      responses:
+        '204':
+          description: Key result deleted
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    KeyResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+        objective_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    Objective:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ObjectiveUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    ObjectiveCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    KeyResultResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/KeyResult'
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    KeyResultUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+    ObjectiveResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Objective'
+    KeyResultList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyResult'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ObjectiveList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Objective'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    KeyResultCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Personal Access Token (64-character hash). Generate in ProductPlan under Settings > Integrations. Include as: Authorization: Bearer <token>
+
+        '

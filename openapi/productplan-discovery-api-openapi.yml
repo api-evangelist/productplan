@@ -1,0 +1,511 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST Bars Discovery API
+  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
+
+    '
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+- url: https://app.productplan.com/api/v2
+  description: ProductPlan production API
+security:
+- bearerAuth: []
+tags:
+- name: Discovery
+  description: Manage ideas, opportunities, customers, and idea forms
+paths:
+  /discovery/ideas:
+    get:
+      operationId: listIdeas
+      summary: List ideas
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createIdea
+      summary: Create an idea
+      tags:
+      - Discovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdeaCreate'
+      responses:
+        '201':
+          description: Idea created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/ideas/{id}:
+    get:
+      operationId: getIdea
+      summary: Retrieve an idea
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single idea
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateIdea
+      summary: Update an idea
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IdeaUpdate'
+      responses:
+        '200':
+          description: Idea updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/ideas/customers:
+    get:
+      operationId: listIdeaCustomers
+      summary: List idea customers
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of customers associated with ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/ideas/tags:
+    get:
+      operationId: listIdeaTags
+      summary: List idea tags
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of tags used on ideas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TagList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/opportunities:
+    get:
+      operationId: listOpportunities
+      summary: List opportunities
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      - $ref: '#/components/parameters/q'
+      responses:
+        '200':
+          description: List of opportunities
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+    post:
+      operationId: createOpportunity
+      summary: Create an opportunity
+      tags:
+      - Discovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpportunityCreate'
+      responses:
+        '201':
+          description: Opportunity created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/opportunities/{id}:
+    get:
+      operationId: getOpportunity
+      summary: Retrieve an opportunity
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single opportunity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+    patch:
+      operationId: updateOpportunity
+      summary: Update an opportunity
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/id'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpportunityUpdate'
+      responses:
+        '200':
+          description: Opportunity updated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OpportunityResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/UnprocessableEntity'
+  /discovery/idea-forms:
+    get:
+      operationId: listIdeaForms
+      summary: List idea forms
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/page_size'
+      responses:
+        '200':
+          description: List of idea forms
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaFormList'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /discovery/idea-forms/{id}:
+    get:
+      operationId: getIdeaForm
+      summary: Retrieve an idea form
+      tags:
+      - Discovery
+      parameters:
+      - $ref: '#/components/parameters/id'
+      responses:
+        '200':
+          description: A single idea form
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdeaFormResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  schemas:
+    IdeaUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    OpportunityUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    OpportunityResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Opportunity'
+    IdeaList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Idea'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaFormResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IdeaForm'
+    IdeaResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Idea'
+    OpportunityList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opportunity'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Idea:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    OpportunityCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    TagList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaFormList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeaForm'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    CustomerList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    IdeaCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    IdeaForm:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+  responses:
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Personal Access Token (64-character hash). Generate in ProductPlan under Settings > Integrations. Include as: Authorization: Bearer <token>
+
+        '

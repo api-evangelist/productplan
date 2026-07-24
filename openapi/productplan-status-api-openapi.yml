@@ -1,0 +1,51 @@
+openapi: 3.0.3
+info:
+  title: ProductPlan REST Bars Status API
+  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
+
+    '
+  version: v2
+  contact:
+    name: ProductPlan Support
+    url: https://docs.productplan.com/api/
+  termsOfService: https://www.productplan.com/terms/
+servers:
+- url: https://app.productplan.com/api/v2
+  description: ProductPlan production API
+security:
+- bearerAuth: []
+tags:
+- name: Status
+  description: Application status
+paths:
+  /status:
+    get:
+      operationId: getStatus
+      summary: Check application status
+      tags:
+      - Status
+      security: []
+      responses:
+        '200':
+          description: Application status
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+components:
+  schemas:
+    StatusResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          example: ok
+        version:
+          type: string
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      description: 'Personal Access Token (64-character hash). Generate in ProductPlan under Settings > Integrations. Include as: Authorization: Bearer <token>
+
+        '
