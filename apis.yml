@@ -1,6 +1,19 @@
 name: ProductPlan
 description: ProductPlan is a road mapping software platform providing a REST API for creating and managing roadmaps, features, goals, OKRs, launches, and discovery. It integrates with tools like Jira, GitHub, Slack, and Trello, enabling teams to plan, align, and share product strategies with stakeholders.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/productplan.png
 url: https://raw.githubusercontent.com/api-evangelist/productplan/refs/heads/main/apis.yml
 created: '2026-06-13'
 modified: '2026-06-13'
@@ -16,24 +29,102 @@ tags:
   - Discovery
   - Integrations
 apis:
-  - name: ProductPlan REST API
-    description: The ProductPlan REST API (v2) provides access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and webhooks. Enables synchronization with internal systems and third-party tools.
-    image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-    humanURL: https://docs.productplan.com/api/
-    baseURL: https://app.productplan.com
-    tags:
-      - Road Mapping
-      - Roadmaps
-      - OKR
-      - Launches
-      - Discovery
-    properties:
-      - type: Documentation
-        url: https://docs.productplan.com/api/
-      - type: OpenAPI
-        url: https://productplan.readme.io/reference/overview
-      - type: OpenAPI
-        url: openapi/productplan-rest-api-openapi.yml
+- aid: productplan:productplan-bars-api
+  name: ProductPlan Bars API
+  description: Manage bars (features/items) within roadmaps
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Bars
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-bars-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-discovery-api
+  name: ProductPlan Discovery API
+  description: Manage ideas, opportunities, customers, and idea forms
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Discovery
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-discovery-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-launches-api
+  name: ProductPlan Launches API
+  description: Manage launches, checklist sections, and tasks
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Launches
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-launches-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-roadmaps-api
+  name: ProductPlan Roadmaps API
+  description: Manage roadmaps, lanes, milestones, bars, and comments
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Roadmaps
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-roadmaps-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-status-api
+  name: ProductPlan Status API
+  description: Application status
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Status
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-status-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-strategy-api
+  name: ProductPlan Strategy API
+  description: Manage OKR objectives and key results
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Strategy
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-strategy-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-teams-api
+  name: ProductPlan Teams API
+  description: List teams
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Teams
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-teams-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
+- aid: productplan:productplan-users-api
+  name: ProductPlan Users API
+  description: List account users
+  humanURL: https://docs.productplan.com/api/
+  baseURL: https://app.productplan.com
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/productplan-users-api-openapi.yml
+  - type: Documentation
+    url: https://docs.productplan.com/api/
 common:
   - type: AgenticAccess
     url: agentic-access/productplan-agentic-access.yml
