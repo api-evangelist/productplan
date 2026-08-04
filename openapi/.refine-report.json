@@ -1,0 +1,28 @@
+{
+  "provider": "productplan",
+  "sources": [
+    "productplan-bars-api-openapi.yml",
+    "productplan-discovery-api-openapi.yml",
+    "productplan-launches-api-openapi.yml",
+    "productplan-roadmaps-api-openapi.yml",
+    "productplan-status-api-openapi.yml",
+    "productplan-strategy-api-openapi.yml",
+    "productplan-teams-api-openapi.yml",
+    "productplan-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "productplan-bars-api-openapi.yml",
+    "productplan-discovery-api-openapi.yml",
+    "productplan-launches-api-openapi.yml",
+    "productplan-roadmaps-api-openapi.yml",
+    "productplan-status-api-openapi.yml",
+    "productplan-strategy-api-openapi.yml",
+    "productplan-teams-api-openapi.yml",
+    "productplan-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
