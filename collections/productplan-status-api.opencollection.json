@@ -1,0 +1,35 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Status API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Status",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Check application status",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/status"
+          },
+          "docs": "Check application status"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

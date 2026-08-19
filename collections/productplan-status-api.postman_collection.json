@@ -1,0 +1,116 @@
+{
+  "item": [
+    {
+      "id": "93f7a920-caae-451a-9f2b-7a22798d610b",
+      "name": "Status",
+      "description": {
+        "content": "Application status",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "48cca1f2-46c8-4bba-b41c-c5caaa9c08d3",
+          "name": "Check application status",
+          "request": {
+            "name": "Check application status",
+            "description": {},
+            "url": {
+              "path": [
+                "status"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "4c1a253b-d7b1-474d-92a8-08d3905ba4a2",
+              "name": "Application status",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "status"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"status\": \"ok\",\n  \"version\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.productplan.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "601afda1-6d12-47b8-8d07-3979a685c779",
+    "name": "ProductPlan REST Bars Status API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.\n\n\nContact Support:\n Name: ProductPlan Support",
+      "type": "text/plain"
+    }
+  }
+}

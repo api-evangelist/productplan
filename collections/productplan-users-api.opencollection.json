@@ -1,0 +1,49 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Users API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List all account users",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/users",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List all account users"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,387 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Launches API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Launches",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List launches",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List launches"
+        },
+        {
+          "info": {
+            "name": "Create a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/launches",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a launch"
+        },
+        {
+          "info": {
+            "name": "Retrieve a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a launch"
+        },
+        {
+          "info": {
+            "name": "Update a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/launches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a launch"
+        },
+        {
+          "info": {
+            "name": "Delete a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/launches/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a launch"
+        },
+        {
+          "info": {
+            "name": "List checklist sections for a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/checklist-sections",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List checklist sections for a launch"
+        },
+        {
+          "info": {
+            "name": "Create a checklist section",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/checklist-sections",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a checklist section"
+        },
+        {
+          "info": {
+            "name": "Retrieve a checklist section",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/checklist-sections/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a checklist section"
+        },
+        {
+          "info": {
+            "name": "Update a checklist section",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/checklist-sections/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a checklist section"
+        },
+        {
+          "info": {
+            "name": "Delete a checklist section",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/checklist-sections/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a checklist section"
+        },
+        {
+          "info": {
+            "name": "List tasks for a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/tasks",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List tasks for a launch"
+        },
+        {
+          "info": {
+            "name": "Create a task for a launch",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/tasks",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a task for a launch"
+        },
+        {
+          "info": {
+            "name": "Retrieve a launch task",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/tasks/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a launch task"
+        },
+        {
+          "info": {
+            "name": "Update a launch task",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/tasks/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a launch task"
+        },
+        {
+          "info": {
+            "name": "Delete a launch task",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/launches/:launch_id/tasks/:id",
+            "params": [
+              {
+                "name": "launch_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a launch task"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

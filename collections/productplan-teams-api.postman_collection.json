@@ -1,0 +1,190 @@
+{
+  "item": [
+    {
+      "id": "9023cfb9-dc99-49b1-be95-11f39ddcd39a",
+      "name": "Teams",
+      "description": {
+        "content": "List teams",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "4db5f82e-b009-4ee1-9a14-33e3105ab0f9",
+          "name": "List all teams",
+          "request": {
+            "name": "List all teams",
+            "description": {},
+            "url": {
+              "path": [
+                "teams"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number (1-based)"
+                },
+                {
+                  "disabled": false,
+                  "key": "page_size",
+                  "value": "200",
+                  "description": "Number of results per page (max 500)"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "2be90757-d2b5-4cfd-83cb-70b7e0e2d446",
+              "name": "List of teams",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"data\": [\n    {\n      \"id\": 5944,\n      \"name\": \"string\",\n      \"created_at\": \"2024-12-09T17:22:27.724Z\",\n      \"updated_at\": \"1994-05-09T14:02:57.090Z\"\n    },\n    {\n      \"id\": 4449,\n      \"name\": \"string\",\n      \"created_at\": \"2017-01-24T12:44:04.677Z\",\n      \"updated_at\": \"1965-12-11T10:58:28.145Z\"\n    }\n  ],\n  \"meta\": {\n    \"current_page\": 970,\n    \"page_size\": 2026,\n    \"total_count\": 2502,\n    \"total_pages\": 8035\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "ee19a9c3-2803-4ccd-95ed-1b66569f3f36",
+              "name": "Invalid authentication credentials",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "teams"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "page_size",
+                      "value": "200"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: bearer",
+                      "type": "text/plain"
+                    },
+                    "key": "Authorization",
+                    "value": "Bearer <token>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"error\": \"string\",\n  \"message\": \"string\",\n  \"errors\": [\n    \"string\",\n    \"string\"\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://app.productplan.com/api/v2",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{bearerToken}}"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "58136609-49be-4c18-947b-fe61e056571b",
+    "name": "ProductPlan REST Bars Teams API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.\n\n\nContact Support:\n Name: ProductPlan Support",
+      "type": "text/plain"
+    }
+  }
+}

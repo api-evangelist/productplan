@@ -1,0 +1,259 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Strategy API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Strategy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List objectives",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List objectives"
+        },
+        {
+          "info": {
+            "name": "Create an objective",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an objective"
+        },
+        {
+          "info": {
+            "name": "Retrieve an objective",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve an objective"
+        },
+        {
+          "info": {
+            "name": "Update an objective",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an objective"
+        },
+        {
+          "info": {
+            "name": "Delete an objective",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete an objective"
+        },
+        {
+          "info": {
+            "name": "List key results for an objective",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:objective_id/key-results",
+            "params": [
+              {
+                "name": "objective_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List key results for an objective"
+        },
+        {
+          "info": {
+            "name": "Create a key result",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:objective_id/key-results",
+            "params": [
+              {
+                "name": "objective_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a key result"
+        },
+        {
+          "info": {
+            "name": "Retrieve a key result",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:objective_id/key-results/:id",
+            "params": [
+              {
+                "name": "objective_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a key result"
+        },
+        {
+          "info": {
+            "name": "Update a key result",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:objective_id/key-results/:id",
+            "params": [
+              {
+                "name": "objective_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a key result"
+        },
+        {
+          "info": {
+            "name": "Delete a key result",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/strategy/objectives/:objective_id/key-results/:id",
+            "params": [
+              {
+                "name": "objective_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a key result"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

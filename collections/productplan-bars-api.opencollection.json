@@ -1,0 +1,314 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Bars",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/bars",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Creates a new bar (feature/item) within a specified roadmap. Bars represent work items on a roadmap timeline.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/bars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a bar"
+        },
+        {
+          "info": {
+            "name": "Update a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/bars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a bar"
+        },
+        {
+          "info": {
+            "name": "Delete a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/bars/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a bar"
+        },
+        {
+          "info": {
+            "name": "List child bars",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/bars/:id/child-bars",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List child bars"
+        },
+        {
+          "info": {
+            "name": "List comments on a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/bars/:id/comments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List comments on a bar"
+        },
+        {
+          "info": {
+            "name": "List connections for a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/connections",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List connections for a bar"
+        },
+        {
+          "info": {
+            "name": "Create a connection for a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/connections",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a connection for a bar"
+        },
+        {
+          "info": {
+            "name": "Delete a connection",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/connections/:id",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a connection"
+        },
+        {
+          "info": {
+            "name": "List links for a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/links",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List links for a bar"
+        },
+        {
+          "info": {
+            "name": "Create a link for a bar",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/links",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a link for a bar"
+        },
+        {
+          "info": {
+            "name": "Delete a link",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/bars/:bar_id/links/:id",
+            "params": [
+              {
+                "name": "bar_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a link"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

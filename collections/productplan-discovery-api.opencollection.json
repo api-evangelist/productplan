@@ -1,0 +1,294 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Discovery API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Discovery",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List ideas",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List ideas"
+        },
+        {
+          "info": {
+            "name": "Create an idea",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an idea"
+        },
+        {
+          "info": {
+            "name": "Retrieve an idea",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve an idea"
+        },
+        {
+          "info": {
+            "name": "Update an idea",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an idea"
+        },
+        {
+          "info": {
+            "name": "List idea customers",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas/customers",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List idea customers"
+        },
+        {
+          "info": {
+            "name": "List idea tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/ideas/tags",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List idea tags"
+        },
+        {
+          "info": {
+            "name": "List opportunities",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/opportunities",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List opportunities"
+        },
+        {
+          "info": {
+            "name": "Create an opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/discovery/opportunities",
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create an opportunity"
+        },
+        {
+          "info": {
+            "name": "Retrieve an opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/opportunities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve an opportunity"
+        },
+        {
+          "info": {
+            "name": "Update an opportunity",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/discovery/opportunities/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update an opportunity"
+        },
+        {
+          "info": {
+            "name": "List idea forms",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/idea-forms",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List idea forms"
+        },
+        {
+          "info": {
+            "name": "Retrieve an idea form",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/discovery/idea-forms/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve an idea form"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

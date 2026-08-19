@@ -1,0 +1,356 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ProductPlan REST Bars Roadmaps API",
+    "version": "v2"
+  },
+  "request": {
+    "auth": {
+      "type": "bearer",
+      "token": "{{bearerToken}}"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Roadmaps",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List roadmaps",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "Returns a paginated list of roadmaps for the authenticated account."
+        },
+        {
+          "info": {
+            "name": "Retrieve a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Retrieve a roadmap"
+        },
+        {
+          "info": {
+            "name": "List lanes for a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/lanes",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List lanes for a roadmap"
+        },
+        {
+          "info": {
+            "name": "Create a lane in a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/lanes",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a lane in a roadmap"
+        },
+        {
+          "info": {
+            "name": "Update a lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/lanes/:id",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a lane"
+        },
+        {
+          "info": {
+            "name": "Delete a lane",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/lanes/:id",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a lane"
+        },
+        {
+          "info": {
+            "name": "List milestones for a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/milestones",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List milestones for a roadmap"
+        },
+        {
+          "info": {
+            "name": "Create a milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/milestones",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Create a milestone"
+        },
+        {
+          "info": {
+            "name": "Update a milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/milestones/:id",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "Update a milestone"
+        },
+        {
+          "info": {
+            "name": "Delete a milestone",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:roadmap_id/milestones/:id",
+            "params": [
+              {
+                "name": "roadmap_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              }
+            ]
+          },
+          "docs": "Delete a milestone"
+        },
+        {
+          "info": {
+            "name": "List bars for a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:id/bars",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              },
+              {
+                "name": "q",
+                "value": "",
+                "type": "query",
+                "description": "Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.\n"
+              }
+            ]
+          },
+          "docs": "List bars for a roadmap"
+        },
+        {
+          "info": {
+            "name": "List comments on a roadmap",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://app.productplan.com/api/v2/roadmaps/:id/comments",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path",
+                "description": "The unique numeric identifier of the resource"
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "Page number (1-based)"
+              },
+              {
+                "name": "page_size",
+                "value": "",
+                "type": "query",
+                "description": "Number of results per page (max 500)"
+              }
+            ]
+          },
+          "docs": "List comments on a roadmap"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
