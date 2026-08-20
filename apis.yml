@@ -19,6 +19,16 @@ created: '2026-06-13'
 modified: '2026-06-13'
 specificationVersion: '0.23'
 tags:
+  - Roadmapping
+  - Product Management
+  - OKR
+  - Roadmaps
+  - Features
+  - Product Strategy
+  - Launches
+  - Discovery
+  - Integration
+tags_raw:
   - Road Mapping
   - Product Management
   - OKR
@@ -107,6 +117,8 @@ apis:
   humanURL: https://docs.productplan.com/api/
   baseURL: https://app.productplan.com
   tags:
+  - Team
+  tags_raw:
   - Teams
   properties:
   - type: OpenAPI
@@ -119,6 +131,8 @@ apis:
   humanURL: https://docs.productplan.com/api/
   baseURL: https://app.productplan.com
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
