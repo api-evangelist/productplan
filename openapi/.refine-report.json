@@ -1,14 +1,7 @@
 {
   "provider": "productplan",
   "sources": [
-    "productplan-bars-api-openapi.yml",
-    "productplan-discovery-api-openapi.yml",
-    "productplan-launches-api-openapi.yml",
-    "productplan-roadmaps-api-openapi.yml",
-    "productplan-status-api-openapi.yml",
-    "productplan-strategy-api-openapi.yml",
-    "productplan-teams-api-openapi.yml",
-    "productplan-users-api-openapi.yml"
+    "_original/productplan-rest-api-openapi.yml"
   ],
   "outputs": [
     "productplan-bars-api-openapi.yml",
@@ -23,6 +16,19 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "productplan-rest-api-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "productplan-bars-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-discovery-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-launches-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-roadmaps-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-status-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-strategy-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-teams-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "productplan-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

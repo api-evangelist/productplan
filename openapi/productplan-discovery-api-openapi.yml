@@ -1,9 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: ProductPlan REST Bars Discovery API
-  description: 'The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
-
-    '
+  title: ProductPlan REST Discovery API
+  description: The ProductPlan REST API (v2) provides programmatic access to roadmaps, strategy (objectives and key results), discovery (ideas and opportunities), launch management, users, teams, and account status. It enables synchronization with internal systems and third-party tools such as Jira, GitHub, Slack, and Trello.
   version: v2
   contact:
     name: ProductPlan Support
@@ -265,142 +263,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    IdeaUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    OpportunityUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    OpportunityResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Opportunity'
-    IdeaList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Idea'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    IdeaFormResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/IdeaForm'
-    IdeaResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Idea'
-    OpportunityList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Opportunity'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Idea:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    Customer:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-    Pagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-    OpportunityCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    TagList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    IdeaFormList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdeaForm'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     CustomerList:
       type: object
       properties:
@@ -425,6 +287,33 @@ components:
         updated_at:
           type: string
           format: date-time
+    OpportunityCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    OpportunityUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    IdeaUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
     IdeaCreate:
       type: object
       required:
@@ -438,6 +327,115 @@ components:
           type: array
           items:
             type: string
+    IdeaList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Idea'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Idea:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    IdeaResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Idea'
+    OpportunityList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Opportunity'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    IdeaFormResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IdeaForm'
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    OpportunityResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Opportunity'
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    TagList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Tag'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaFormList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeaForm'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Tag:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
     IdeaForm:
       type: object
       properties:
@@ -450,26 +448,15 @@ components:
         created_at:
           type: string
           format: date-time
-  responses:
-    NotFound:
-      description: Resource not found
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: Validation errors
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Unauthorized:
-      description: Invalid authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
     id:
       name: id
       in: path
@@ -484,14 +471,6 @@ components:
         type: integer
         default: 1
       description: Page number (1-based)
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
     q:
       name: q
       in: query
@@ -502,6 +481,25 @@ components:
         '
       style: deepObject
       explode: true
+  responses:
+    UnprocessableEntity:
+      description: Validation errors
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http
