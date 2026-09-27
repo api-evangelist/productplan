@@ -260,13 +260,6 @@ components:
       schema:
         type: integer
       description: The unique numeric identifier of the resource
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
     q:
       name: q
       in: query
@@ -277,10 +270,53 @@ components:
         '
       style: deepObject
       explode: true
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
   schemas:
-    KeyResultUpdate:
+    ObjectiveCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    Objective:
       type: object
       properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    KeyResultResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/KeyResult'
+    ObjectiveResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Objective'
+    KeyResult:
+      type: object
+      properties:
+        id:
+          type: integer
         title:
           type: string
         description:
@@ -289,10 +325,36 @@ components:
           type: number
           minimum: 0
           maximum: 100
-    KeyResultCreate:
+        objective_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Pagination:
       type: object
-      required:
-      - title
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    KeyResultList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyResult'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    KeyResultUpdate:
+      type: object
       properties:
         title:
           type: string
@@ -320,41 +382,6 @@ components:
           type: array
           items:
             type: string
-    ObjectiveCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    Pagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
-    Objective:
-      type: object
-      properties:
-        id:
-          type: integer
-        title:
-          type: string
-        description:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
     ObjectiveList:
       type: object
       properties:
@@ -364,20 +391,11 @@ components:
             $ref: '#/components/schemas/Objective'
         meta:
           $ref: '#/components/schemas/Pagination'
-    KeyResultList:
+    KeyResultCreate:
       type: object
+      required:
+      - title
       properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/KeyResult'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    KeyResult:
-      type: object
-      properties:
-        id:
-          type: integer
         title:
           type: string
         description:
@@ -386,31 +404,7 @@ components:
           type: number
           minimum: 0
           maximum: 100
-        objective_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    KeyResultResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/KeyResult'
-    ObjectiveResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Objective'
   responses:
-    UnprocessableEntity:
-      description: Validation errors
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid authentication credentials
       content:
@@ -419,6 +413,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
       content:
         application/json:
           schema:

@@ -301,13 +301,6 @@ components:
         default: 200
         maximum: 500
       description: Number of results per page (max 500)
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
     id:
       name: id
       in: path
@@ -315,122 +308,14 @@ components:
       schema:
         type: integer
       description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
   schemas:
-    BarResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Bar'
-    ConnectionCreate:
-      type: object
-      required:
-      - target_bar_id
-      properties:
-        target_bar_id:
-          type: integer
-    LinkResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Link'
-    ConnectionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Connection'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    ConnectionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Connection'
-    Connection:
-      type: object
-      properties:
-        id:
-          type: integer
-        source_bar_id:
-          type: integer
-        target_bar_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    LinkList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    BarCreate:
-      type: object
-      required:
-      - name
-      - roadmap_id
-      properties:
-        name:
-          type: string
-          description: Title of the bar
-        roadmap_id:
-          type: integer
-          description: ID of the roadmap
-        description:
-          type: string
-        starts_on:
-          type: string
-          format: date
-        ends_on:
-          type: string
-          format: date
-        strategic_value:
-          type: string
-        notes:
-          type: string
-        percent_done:
-          type: integer
-          minimum: 0
-          maximum: 100
-        tags:
-          type: array
-          items:
-            type: string
-        lane:
-          type: string
-        legend:
-          type: string
-        custom_text_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomTextField'
-        custom_dropdown_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomDropdownField'
-        is_container:
-          type: boolean
-          default: false
-        parked:
-          type: boolean
-          default: true
-        container_bar_id:
-          type: integer
     Bar:
       type: object
       properties:
@@ -486,6 +371,58 @@ components:
         updated_at:
           type: string
           format: date-time
+    CustomTextField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    ConnectionCreate:
+      type: object
+      required:
+      - target_bar_id
+      properties:
+        target_bar_id:
+          type: integer
+    LinkResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Link'
+    BarResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Bar'
+    LinkList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Connection:
+      type: object
+      properties:
+        id:
+          type: integer
+        source_bar_id:
+          type: integer
+        target_bar_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+    CustomDropdownField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
     Pagination:
       type: object
       properties:
@@ -497,13 +434,44 @@ components:
           type: integer
         total_pages:
           type: integer
-    CustomTextField:
+    BarList:
       type: object
       properties:
-        name:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bar'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        body:
           type: string
-        value:
+        user_id:
+          type: integer
+        created_at:
           type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    ConnectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ConnectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Connection'
     BarUpdate:
       type: object
       properties:
@@ -545,47 +513,6 @@ components:
           type: boolean
         container_bar_id:
           type: integer
-    CustomDropdownField:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    CommentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Comment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Comment:
-      type: object
-      properties:
-        id:
-          type: integer
-        body:
-          type: string
-        user_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    LinkCreate:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-          format: uri
-        title:
-          type: string
     Link:
       type: object
       properties:
@@ -599,36 +526,109 @@ components:
         created_at:
           type: string
           format: date-time
-    BarList:
+    LinkCreate:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          format: uri
+        title:
+          type: string
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    BarCreate:
+      type: object
+      required:
+      - name
+      - roadmap_id
+      properties:
+        name:
+          type: string
+          description: Title of the bar
+        roadmap_id:
+          type: integer
+          description: ID of the roadmap
+        description:
+          type: string
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type: string
+          format: date
+        strategic_value:
+          type: string
+        notes:
+          type: string
+        percent_done:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tags:
+          type: array
+          items:
+            type: string
+        lane:
+          type: string
+        legend:
+          type: string
+        custom_text_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomTextField'
+        custom_dropdown_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDropdownField'
+        is_container:
+          type: boolean
+          default: false
+        parked:
+          type: boolean
+          default: true
+        container_bar_id:
+          type: integer
+    CommentList:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Bar'
+            $ref: '#/components/schemas/Comment'
         meta:
           $ref: '#/components/schemas/Pagination'
   responses:
-    Forbidden:
-      description: Insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    UnprocessableEntity:
-      description: Validation errors
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid authentication credentials
       content:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
       content:
         application/json:
           schema:

@@ -263,79 +263,18 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    CustomerList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Customer'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Opportunity:
+    Tag:
       type: object
       properties:
         id:
           type: integer
-        title:
+        name:
           type: string
-        description:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    OpportunityCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    OpportunityUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    IdeaUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-    IdeaCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        tags:
-          type: array
-          items:
-            type: string
-    IdeaList:
+    OpportunityResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Idea'
-        meta:
-          $ref: '#/components/schemas/Pagination'
+          $ref: '#/components/schemas/Opportunity'
     Idea:
       type: object
       properties:
@@ -355,11 +294,35 @@ components:
         updated_at:
           type: string
           format: date-time
-    IdeaResponse:
+    IdeaFormList:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Idea'
+          type: array
+          items:
+            $ref: '#/components/schemas/IdeaForm'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
+    CustomerList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Customer'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     OpportunityList:
       type: object
       properties:
@@ -369,37 +332,15 @@ components:
             $ref: '#/components/schemas/Opportunity'
         meta:
           $ref: '#/components/schemas/Pagination'
-    Error:
+    TagList:
       type: object
       properties:
-        error:
-          type: string
-        message:
-          type: string
-        errors:
+        data:
           type: array
           items:
-            type: string
-    IdeaFormResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/IdeaForm'
-    Customer:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        email:
-          type: string
-          format: email
-    OpportunityResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Opportunity'
+            $ref: '#/components/schemas/Tag'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     Pagination:
       type: object
       properties:
@@ -411,31 +352,6 @@ components:
           type: integer
         total_pages:
           type: integer
-    TagList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Tag'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    IdeaFormList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/IdeaForm'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Tag:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
     IdeaForm:
       type: object
       properties:
@@ -448,6 +364,90 @@ components:
         created_at:
           type: string
           format: date-time
+    OpportunityUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    IdeaList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Idea'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    IdeaResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Idea'
+    Opportunity:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    Customer:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+    OpportunityCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    IdeaFormResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/IdeaForm'
+    IdeaCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: array
+          items:
+            type: string
   parameters:
     page_size:
       name: page_size
@@ -457,6 +457,16 @@ components:
         default: 200
         maximum: 500
       description: Number of results per page (max 500)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
     id:
       name: id
       in: path
@@ -471,23 +481,7 @@ components:
         type: integer
         default: 1
       description: Page number (1-based)
-    q:
-      name: q
-      in: query
-      schema:
-        type: object
-      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
-
-        '
-      style: deepObject
-      explode: true
   responses:
-    UnprocessableEntity:
-      description: Validation errors
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
     Unauthorized:
       description: Invalid authentication credentials
       content:
@@ -496,6 +490,12 @@ components:
             $ref: '#/components/schemas/Error'
     NotFound:
       description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    UnprocessableEntity:
+      description: Validation errors
       content:
         application/json:
           schema:
