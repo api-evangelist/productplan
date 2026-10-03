@@ -36,6 +36,17 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
     Error:
       type: object
       properties:
@@ -47,15 +58,6 @@ components:
           type: array
           items:
             type: string
-    TeamList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Team'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     Team:
       type: object
       properties:
@@ -69,17 +71,22 @@ components:
         updated_at:
           type: string
           format: date-time
-    Pagination:
+    TeamList:
       type: object
       properties:
-        current_page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Team'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+  responses:
+    Unauthorized:
+      description: Invalid authentication credentials
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   parameters:
     page_size:
       name: page_size
@@ -96,13 +103,6 @@ components:
         type: integer
         default: 1
       description: Page number (1-based)
-  responses:
-    Unauthorized:
-      description: Invalid authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   securitySchemes:
     bearerAuth:
       type: http

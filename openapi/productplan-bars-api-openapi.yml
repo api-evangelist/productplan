@@ -292,30 +292,35 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
-    id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The unique numeric identifier of the resource
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
   schemas:
+    Error:
+      type: object
+      properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    CustomDropdownField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    ConnectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Connection'
+    BarResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Bar'
     Bar:
       type: object
       properties:
@@ -371,39 +376,11 @@ components:
         updated_at:
           type: string
           format: date-time
-    CustomTextField:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    ConnectionCreate:
-      type: object
-      required:
-      - target_bar_id
-      properties:
-        target_bar_id:
-          type: integer
     LinkResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Link'
-    BarResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Bar'
-    LinkList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     Connection:
       type: object
       properties:
@@ -416,7 +393,53 @@ components:
         created_at:
           type: string
           format: date-time
-    CustomDropdownField:
+    CommentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ConnectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Link:
+      type: object
+      properties:
+        id:
+          type: integer
+        url:
+          type: string
+          format: uri
+        title:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        body:
+          type: string
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    CustomTextField:
       type: object
       properties:
         name:
@@ -434,44 +457,6 @@ components:
           type: integer
         total_pages:
           type: integer
-    BarList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bar'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Comment:
-      type: object
-      properties:
-        id:
-          type: integer
-        body:
-          type: string
-        user_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    ConnectionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Connection'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    ConnectionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Connection'
     BarUpdate:
       type: object
       properties:
@@ -513,40 +498,22 @@ components:
           type: boolean
         container_bar_id:
           type: integer
-    Link:
+    BarList:
       type: object
       properties:
-        id:
-          type: integer
-        url:
-          type: string
-          format: uri
-        title:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-    LinkCreate:
-      type: object
-      required:
-      - url
-      properties:
-        url:
-          type: string
-          format: uri
-        title:
-          type: string
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        errors:
+        data:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/Bar'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ConnectionCreate:
+      type: object
+      required:
+      - target_bar_id
+      properties:
+        target_bar_id:
+          type: integer
     BarCreate:
       type: object
       required:
@@ -599,30 +566,28 @@ components:
           default: true
         container_bar_id:
           type: integer
-    CommentList:
+    LinkList:
       type: object
       properties:
         data:
           type: array
           items:
-            $ref: '#/components/schemas/Comment'
+            $ref: '#/components/schemas/Link'
         meta:
           $ref: '#/components/schemas/Pagination'
+    LinkCreate:
+      type: object
+      required:
+      - url
+      properties:
+        url:
+          type: string
+          format: uri
+        title:
+          type: string
   responses:
     Unauthorized:
       description: Invalid authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
       content:
         application/json:
           schema:
@@ -633,6 +598,41 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
   securitySchemes:
     bearerAuth:
       type: http

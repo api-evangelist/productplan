@@ -372,48 +372,17 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
-    TaskCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        completed:
-          type: boolean
-          default: false
-        due_date:
-          type: string
-          format: date
-        assignee_id:
-          type: integer
-        checklist_section_id:
-          type: integer
-    ChecklistSectionList:
+    Error:
       type: object
       properties:
-        data:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
           type: array
           items:
-            $ref: '#/components/schemas/ChecklistSection'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    LaunchList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Launch'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    ChecklistSectionResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/ChecklistSection'
+            type: string
     LaunchUpdate:
       type: object
       properties:
@@ -433,16 +402,45 @@ components:
           type: string
         position:
           type: integer
-    Pagination:
+    TaskCreate:
+      type: object
+      required:
+      - name
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+          default: false
+        due_date:
+          type: string
+          format: date
+        assignee_id:
+          type: integer
+        checklist_section_id:
+          type: integer
+    LaunchResponse:
       type: object
       properties:
-        current_page:
+        data:
+          $ref: '#/components/schemas/Launch'
+    TaskUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        completed:
+          type: boolean
+        due_date:
+          type: string
+          format: date
+        assignee_id:
           type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
+        checklist_section_id:
           type: integer
     ChecklistSection:
       type: object
@@ -461,12 +459,34 @@ components:
         updated_at:
           type: string
           format: date-time
-    ChecklistSectionUpdate:
+    TaskList:
       type: object
       properties:
-        name:
-          type: string
-        position:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Task'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    LaunchList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Launch'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
           type: integer
     Launch:
       type: object
@@ -486,27 +506,32 @@ components:
         updated_at:
           type: string
           format: date-time
-    Error:
+    ChecklistSectionUpdate:
       type: object
       properties:
-        error:
+        name:
           type: string
-        message:
-          type: string
-        errors:
+        position:
+          type: integer
+    ChecklistSectionList:
+      type: object
+      properties:
+        data:
           type: array
           items:
-            type: string
+            $ref: '#/components/schemas/ChecklistSection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ChecklistSectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/ChecklistSection'
     TaskResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Task'
-    LaunchResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Launch'
     LaunchCreate:
       type: object
       required:
@@ -519,31 +544,6 @@ components:
         launch_date:
           type: string
           format: date
-    TaskList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Task'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    TaskUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        completed:
-          type: boolean
-        due_date:
-          type: string
-          format: date
-        assignee_id:
-          type: integer
-        checklist_section_id:
-          type: integer
     Task:
       type: object
       properties:
@@ -574,48 +574,9 @@ components:
         updated_at:
           type: string
           format: date-time
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
-    id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The unique numeric identifier of the resource
-    q:
-      name: q
-      in: query
-      schema:
-        type: object
-      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
-
-        '
-      style: deepObject
-      explode: true
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
   responses:
     Unauthorized:
       description: Invalid authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
       content:
         application/json:
           schema:
@@ -626,6 +587,45 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
   securitySchemes:
     bearerAuth:
       type: http

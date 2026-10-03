@@ -316,48 +316,90 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
-    id:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-      description: The unique numeric identifier of the resource
-    q:
-      name: q
-      in: query
-      schema:
-        type: object
-      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
-
-        '
-      style: deepObject
-      explode: true
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
   schemas:
-    MilestoneUpdate:
+    Error:
       type: object
       properties:
+        error:
+          type: string
+        message:
+          type: string
+        errors:
+          type: array
+          items:
+            type: string
+    CustomDropdownField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    LaneUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+        description:
+          type: string
+        position:
+          type: integer
+    Milestone:
+      type: object
+      properties:
+        id:
+          type: integer
         name:
           type: string
         date:
           type: string
           format: date
+        roadmap_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    RoadmapList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Roadmap'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    Roadmap:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+    LaneResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Lane'
+    LaneList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Lane'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     Bar:
       type: object
       properties:
@@ -413,40 +455,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    MilestoneCreate:
-      type: object
-      required:
-      - name
-      - date
-      properties:
-        name:
-          type: string
-        date:
-          type: string
-          format: date
-    MilestoneResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Milestone'
-    CustomTextField:
-      type: object
-      properties:
-        name:
-          type: string
-        value:
-          type: string
-    LaneCreate:
-      type: object
-      required:
-      - name
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        position:
-          type: integer
     Lane:
       type: object
       properties:
@@ -466,6 +474,26 @@ components:
         updated_at:
           type: string
           format: date-time
+    CommentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    MilestoneCreate:
+      type: object
+      required:
+      - name
+      - date
+      properties:
+        name:
+          type: string
+        date:
+          type: string
+          format: date
     MilestoneList:
       type: object
       properties:
@@ -475,42 +503,17 @@ components:
             $ref: '#/components/schemas/Milestone'
         meta:
           $ref: '#/components/schemas/Pagination'
-    CustomDropdownField:
+    LaneCreate:
       type: object
+      required:
+      - name
       properties:
         name:
           type: string
-        value:
+        description:
           type: string
-    BarList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bar'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Pagination:
-      type: object
-      properties:
-        current_page:
+        position:
           type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
-    RoadmapList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Roadmap'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     Comment:
       type: object
       properties:
@@ -526,102 +529,54 @@ components:
         updated_at:
           type: string
           format: date-time
-    LaneResponse:
+    CustomTextField:
+      type: object
+      properties:
+        name:
+          type: string
+        value:
+          type: string
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    BarList:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/Lane'
+          type: array
+          items:
+            $ref: '#/components/schemas/Bar'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    MilestoneResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Milestone'
     RoadmapResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Roadmap'
-    Milestone:
+    MilestoneUpdate:
       type: object
       properties:
-        id:
-          type: integer
         name:
           type: string
         date:
           type: string
           format: date
-        roadmap_id:
-          type: integer
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    LaneUpdate:
-      type: object
-      properties:
-        name:
-          type: string
-        description:
-          type: string
-        position:
-          type: integer
-    LaneList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Lane'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Error:
-      type: object
-      properties:
-        error:
-          type: string
-        message:
-          type: string
-        errors:
-          type: array
-          items:
-            type: string
-    Roadmap:
-      type: object
-      properties:
-        id:
-          type: integer
-        name:
-          type: string
-        description:
-          type: string
-        created_at:
-          type: string
-          format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    CommentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Comment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
   responses:
     Unauthorized:
       description: Invalid authentication credentials
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
-    NotFound:
-      description: Resource not found
       content:
         application/json:
           schema:
@@ -632,6 +587,51 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  parameters:
+    id:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+      description: The unique numeric identifier of the resource
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
+    q:
+      name: q
+      in: query
+      schema:
+        type: object
+      description: 'Filtering and sorting object. Supports attributes such as id, name, description, position, created_at, updated_at depending on resource.
+
+        '
+      style: deepObject
+      explode: true
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
   securitySchemes:
     bearerAuth:
       type: http
