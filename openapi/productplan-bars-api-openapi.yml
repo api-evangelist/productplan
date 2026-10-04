@@ -293,6 +293,15 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   schemas:
+    ConnectionList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Connection'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     Error:
       type: object
       properties:
@@ -304,6 +313,40 @@ components:
           type: array
           items:
             type: string
+    CommentList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    LinkList:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Link'
+        meta:
+          $ref: '#/components/schemas/Pagination'
+    ConnectionResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/Connection'
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
     CustomDropdownField:
       type: object
       properties:
@@ -311,16 +354,78 @@ components:
           type: string
         value:
           type: string
-    ConnectionResponse:
+    BarCreate:
       type: object
+      required:
+      - name
+      - roadmap_id
       properties:
-        data:
-          $ref: '#/components/schemas/Connection'
+        name:
+          type: string
+          description: Title of the bar
+        roadmap_id:
+          type: integer
+          description: ID of the roadmap
+        description:
+          type: string
+        starts_on:
+          type: string
+          format: date
+        ends_on:
+          type: string
+          format: date
+        strategic_value:
+          type: string
+        notes:
+          type: string
+        percent_done:
+          type: integer
+          minimum: 0
+          maximum: 100
+        tags:
+          type: array
+          items:
+            type: string
+        lane:
+          type: string
+        legend:
+          type: string
+        custom_text_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomTextField'
+        custom_dropdown_fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomDropdownField'
+        is_container:
+          type: boolean
+          default: false
+        parked:
+          type: boolean
+          default: true
+        container_bar_id:
+          type: integer
     BarResponse:
       type: object
       properties:
         data:
           $ref: '#/components/schemas/Bar'
+    Comment:
+      type: object
+      properties:
+        id:
+          type: integer
+        body:
+          type: string
+        user_id:
+          type: integer
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
     Bar:
       type: object
       properties:
@@ -376,41 +481,13 @@ components:
         updated_at:
           type: string
           format: date-time
-    LinkResponse:
+    ConnectionCreate:
       type: object
+      required:
+      - target_bar_id
       properties:
-        data:
-          $ref: '#/components/schemas/Link'
-    Connection:
-      type: object
-      properties:
-        id:
-          type: integer
-        source_bar_id:
-          type: integer
         target_bar_id:
           type: integer
-        created_at:
-          type: string
-          format: date-time
-    CommentList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Comment'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    ConnectionList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Connection'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     Link:
       type: object
       properties:
@@ -424,39 +501,32 @@ components:
         created_at:
           type: string
           format: date-time
-    Comment:
+    Connection:
       type: object
       properties:
         id:
           type: integer
-        body:
-          type: string
-        user_id:
+        source_bar_id:
+          type: integer
+        target_bar_id:
           type: integer
         created_at:
           type: string
           format: date-time
-        updated_at:
-          type: string
-          format: date-time
-    CustomTextField:
+    LinkResponse:
       type: object
       properties:
-        name:
-          type: string
-        value:
-          type: string
-    Pagination:
+        data:
+          $ref: '#/components/schemas/Link'
+    BarList:
       type: object
       properties:
-        current_page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
+        data:
+          type: array
+          items:
+            $ref: '#/components/schemas/Bar'
+        meta:
+          $ref: '#/components/schemas/Pagination'
     BarUpdate:
       type: object
       properties:
@@ -498,83 +568,13 @@ components:
           type: boolean
         container_bar_id:
           type: integer
-    BarList:
+    CustomTextField:
       type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Bar'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    ConnectionCreate:
-      type: object
-      required:
-      - target_bar_id
-      properties:
-        target_bar_id:
-          type: integer
-    BarCreate:
-      type: object
-      required:
-      - name
-      - roadmap_id
       properties:
         name:
           type: string
-          description: Title of the bar
-        roadmap_id:
-          type: integer
-          description: ID of the roadmap
-        description:
+        value:
           type: string
-        starts_on:
-          type: string
-          format: date
-        ends_on:
-          type: string
-          format: date
-        strategic_value:
-          type: string
-        notes:
-          type: string
-        percent_done:
-          type: integer
-          minimum: 0
-          maximum: 100
-        tags:
-          type: array
-          items:
-            type: string
-        lane:
-          type: string
-        legend:
-          type: string
-        custom_text_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomTextField'
-        custom_dropdown_fields:
-          type: array
-          items:
-            $ref: '#/components/schemas/CustomDropdownField'
-        is_container:
-          type: boolean
-          default: false
-        parked:
-          type: boolean
-          default: true
-        container_bar_id:
-          type: integer
-    LinkList:
-      type: object
-      properties:
-        data:
-          type: array
-          items:
-            $ref: '#/components/schemas/Link'
-        meta:
-          $ref: '#/components/schemas/Pagination'
     LinkCreate:
       type: object
       required:
@@ -592,6 +592,12 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
     UnprocessableEntity:
       description: Validation errors
       content:
@@ -604,13 +610,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-    Forbidden:
-      description: Insufficient permissions
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
     id:
       name: id
       in: path
@@ -625,14 +633,6 @@ components:
         type: integer
         default: 1
       description: Page number (1-based)
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
   securitySchemes:
     bearerAuth:
       type: http

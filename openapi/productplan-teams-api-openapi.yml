@@ -35,6 +35,22 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
+  parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        default: 1
+      description: Page number (1-based)
   schemas:
     Pagination:
       type: object
@@ -87,22 +103,6 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
-  parameters:
-    page_size:
-      name: page_size
-      in: query
-      schema:
-        type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
   securitySchemes:
     bearerAuth:
       type: http

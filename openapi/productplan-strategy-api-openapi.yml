@@ -256,6 +256,15 @@ components:
           type: array
           items:
             type: string
+    ObjectiveCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
     ObjectiveList:
       type: object
       properties:
@@ -265,6 +274,42 @@ components:
             $ref: '#/components/schemas/Objective'
         meta:
           $ref: '#/components/schemas/Pagination'
+    Pagination:
+      type: object
+      properties:
+        current_page:
+          type: integer
+        page_size:
+          type: integer
+        total_count:
+          type: integer
+        total_pages:
+          type: integer
+    KeyResultCreate:
+      type: object
+      required:
+      - title
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        progress:
+          type: number
+          minimum: 0
+          maximum: 100
+    ObjectiveUpdate:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+    KeyResultResponse:
+      type: object
+      properties:
+        data:
+          $ref: '#/components/schemas/KeyResult'
     KeyResult:
       type: object
       properties:
@@ -286,19 +331,6 @@ components:
         updated_at:
           type: string
           format: date-time
-    KeyResultCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        progress:
-          type: number
-          minimum: 0
-          maximum: 100
     Objective:
       type: object
       properties:
@@ -314,33 +346,11 @@ components:
         updated_at:
           type: string
           format: date-time
-    ObjectiveUpdate:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    KeyResultList:
+    ObjectiveResponse:
       type: object
       properties:
         data:
-          type: array
-          items:
-            $ref: '#/components/schemas/KeyResult'
-        meta:
-          $ref: '#/components/schemas/Pagination'
-    Pagination:
-      type: object
-      properties:
-        current_page:
-          type: integer
-        page_size:
-          type: integer
-        total_count:
-          type: integer
-        total_pages:
-          type: integer
+          $ref: '#/components/schemas/Objective'
     KeyResultUpdate:
       type: object
       properties:
@@ -352,25 +362,15 @@ components:
           type: number
           minimum: 0
           maximum: 100
-    ObjectiveCreate:
-      type: object
-      required:
-      - title
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-    KeyResultResponse:
+    KeyResultList:
       type: object
       properties:
         data:
-          $ref: '#/components/schemas/KeyResult'
-    ObjectiveResponse:
-      type: object
-      properties:
-        data:
-          $ref: '#/components/schemas/Objective'
+          type: array
+          items:
+            $ref: '#/components/schemas/KeyResult'
+        meta:
+          $ref: '#/components/schemas/Pagination'
   responses:
     Unauthorized:
       description: Invalid authentication credentials
@@ -391,6 +391,14 @@ components:
           schema:
             $ref: '#/components/schemas/Error'
   parameters:
+    page_size:
+      name: page_size
+      in: query
+      schema:
+        type: integer
+        default: 200
+        maximum: 500
+      description: Number of results per page (max 500)
     id:
       name: id
       in: path
@@ -398,13 +406,6 @@ components:
       schema:
         type: integer
       description: The unique numeric identifier of the resource
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        default: 1
-      description: Page number (1-based)
     q:
       name: q
       in: query
@@ -415,14 +416,13 @@ components:
         '
       style: deepObject
       explode: true
-    page_size:
-      name: page_size
+    page:
+      name: page
       in: query
       schema:
         type: integer
-        default: 200
-        maximum: 500
-      description: Number of results per page (max 500)
+        default: 1
+      description: Page number (1-based)
   securitySchemes:
     bearerAuth:
       type: http
