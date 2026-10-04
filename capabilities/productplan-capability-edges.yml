@@ -1,0 +1,44 @@
+slug: productplan
+provider: ProductPlan
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 3
+edges:
+- tag: Strategy
+  spec_file: productplan-strategy-api-openapi.yml
+  capability_id: BC-100.20
+  capability_id_l1: BC-100
+  capability_name: Strategy Execution Management
+  confidence: 0.8
+  evidence: GET /strategy/objectives listObjectives; POST /strategy/objectives/{objective_id}/key-results
+    createKeyResult — "strategy (objectives and key results)"
+  reason: Operations create and manage objectives and key results (OKRs), which is the translation of
+    strategy into measurable objectives — Strategy Execution Management. Slight ambiguity as it sits inside
+    a product roadmap tool, but the surface is explicitly OKR management.
+- tag: Launches
+  spec_file: productplan-launches-api-openapi.yml
+  capability_id: BC-820.50
+  capability_id_l1: BC-820
+  capability_name: Product Release & Launch Management
+  confidence: 0.78
+  evidence: POST /launches  createLaunch; GET /launches/{launch_id}/checklist-sections  List checklist
+    sections for a launch; POST /launches/{launch_id}/tasks
+  reason: Launch records with checklist sections and tasks are product launch planning and execution management.
+- tag: Discovery
+  spec_file: productplan-discovery-api-openapi.yml
+  capability_id: BC-4200.10
+  capability_id_l1: BC-4200
+  capability_name: Product Discovery & Backlog Management
+  confidence: 0.75
+  evidence: GET /discovery/ideas  listIdeas; POST /discovery/opportunities  createOpportunity; GET /discovery/idea-forms
+  reason: Ideas, opportunities, idea intake forms and linked customers constitute product discovery and
+    idea/opportunity backlog stewardship for a software product roadmapping platform.

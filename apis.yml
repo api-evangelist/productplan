@@ -152,6 +152,9 @@ apis:
   - type: Documentation
     url: https://docs.productplan.com/api/
 common:
+  - type: CapabilityMap
+    url: capabilities/productplan-capability-edges.yml
+    name: ProductPlan Business Capability Map
   - type: AgenticAccess
     url: agentic-access/productplan-agentic-access.yml
   - type: TrustCenter
