@@ -2,14 +2,18 @@
   "repo": "productplan",
   "feeds": [
     {
-      "source": "https://www.linkedin.com/company/productplan",
-      "feed_url": "https://www.linkedin.com/company/productplan",
+      "source": "https://www.productplan.com/blog",
+      "feed_url": "https://www.productplan.com/blog",
       "title": "",
       "saved": 0,
       "method": "none"
+    },
+    {
+      "source": "https://www.linkedin.com/company/productplan",
+      "error": "HTTPError"
     }
   ],
   "post_count": 0,
-  "fetched": "2026-10-03T12:30:02Z",
+  "fetched": "2026-10-10T13:15:00Z",
   "agent_pulled": "2026-07-04"
 }
